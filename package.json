@@ -1,0 +1,17 @@
+{
+  "name": "taxmap",
+  "version": "1.0.0",
+  "description": "A property tax mapping tool",
+  "main": "index.js",
+  "repository": "https://github.com/mloar/taxmap.git",
+  "author": "Matt Loar <matt@loar.name>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node index.js $*"
+  },
+  "packageManager": "yarn@3.2.0",
+  "dependencies": {
+    "gdal": "^0.11.0"
+  }
+}

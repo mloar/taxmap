@@ -1,5 +1,6 @@
 const fs = require("fs");
 const process = require("process");
+const gdal = require("gdal");
 const args = process.argv;
 const rates = JSON.parse(fs.readFileSync("rates.json"));
 
@@ -15,11 +16,13 @@ const features = Object.values(args.slice(2).map(r => JSON.parse(fs.readFileSync
         properties: {
           taxcode: cur.properties.taxcode,
           taxrate: rates[cur.properties.taxcode]
-        }
+        },
+        geo: new gdal.GeometryCollection()
       };
     } else {
       acc[cur.properties.taxcode].geometry.geometries.push(cur.geometry);
     }
+    acc[cur.properties.taxcode].geo.children.add(gdal.Geometry.fromGeoJson(cur.geometry));
   }
   return acc;
 }, {}));
@@ -31,26 +34,29 @@ fs.writeFileSync("rates.kml", `<?xml version="1.0" encoding="UTF-8"?>
       <SimpleField name="taxcode" type="string"/>
       <SimpleField name="taxrate" type="float"/>
     </Schema>
+    <Style id="red">
+      <PolyStyle>
+        <color>ff0000ff</color>
+        <outline>1</outline>
+      </PolyStyle>
+    </Style>
+    <Style id="blue">
+      <PolyStyle>
+        <color>ffff0000</color>
+        <outline>1</outline>
+      </PolyStyle>
+    </Style>
     <Document id="rates">
       <name>rates</name>
       ${features.map((f, i) => `<Placemark id="rates.${i}">
+        <styleUrl>#${f.properties.taxrate >= 10 ? "red" : "blue"}</styleUrl>
         <ExtendedData>
           <SchemaData schemaUrl="#rates.schema">
             <SimpleData name="taxcode">${f.properties.taxcode}</SimpleData>
             <SimpleData name="taxrate">${f.properties.taxrate}</SimpleData>
           </SchemaData>
         </ExtendedData>
-        <MultiGeometry>
-          ${f.geometry.geometries.map(g => `<Polygon>
-            <outerBoundaryIs>
-              <LinearRing>
-                <coordinates>
-                  ${g.coordinates[0].map(c => c.map(k => k.concat([0]).join(",")).join("\n                  "))}
-                </coordinates>
-              </LinearRing>
-            </outerBoundaryIs>
-          </Polygon>`).join("\n          ")}
-        </MultiGeometry>
+        ${f.geo.convexHull().toKML()}
       </Placemark>`).join("\n      ")}
     </Document>
   </Document>
