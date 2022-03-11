@@ -47,9 +47,13 @@ fs.writeFileSync("rates.kml", `<?xml version="1.0" encoding="UTF-8"?>
       <SimpleField name="taxrate" type="float"/>
     </Schema>
     ${uniqueRates.map(r => `<Style id="rate-${r}">
+      <LineStyle>
+        <color>${computeColor(r)}</color>
+        <width>0.001</width>
+      </LineStyle>
       <PolyStyle>
         <color>${computeColor(r)}</color>
-        <outline>1</outline>
+        <outline>0</outline>
       </PolyStyle>
     </Style>`).join("\r\n    ")}
     <Document id="rates">
