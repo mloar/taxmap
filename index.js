@@ -39,7 +39,9 @@ const hexNum = num => num < 16 ? "0" + Math.round(num).toString(16) : Math.round
 const spread = rate => (rate - minRate) / (maxRate - minRate);
 const computeColor = rate => `88${hexNum(resultBlue(spread(rate)))}${hexNum(resultGreen(spread(rate)))}${hexNum(resultRed(spread(rate)))}`;
 
-fs.writeFileSync("rates.kml", `<?xml version="1.0" encoding="UTF-8"?>
+const chunks = Math.ceil(features.length / 2000);
+
+Array(chunks).fill(0).map((e, i) => fs.writeFileSync(`rates-${i}.kml`, `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document id="root_doc">
     <Schema id="rates.schema">
@@ -57,8 +59,8 @@ fs.writeFileSync("rates.kml", `<?xml version="1.0" encoding="UTF-8"?>
       </PolyStyle>
     </Style>`).join("\n    ")}
     <Document id="rates">
-      <name>Property Tax Rates 2020</name>
-      ${features.map((f, i) => `<Placemark id="rates.${i}">
+      <name>Property Tax Rates 2020 - Part ${i+1}</name>
+      ${features.slice(i * 2000, ((i + 1) * 2000) - 1).map((f, i) => `<Placemark id="rates.${i}">
         <name>${f.taxcode}</name>
         <styleUrl>#rate-${f.taxrate}</styleUrl>
         <ExtendedData>
@@ -71,4 +73,4 @@ fs.writeFileSync("rates.kml", `<?xml version="1.0" encoding="UTF-8"?>
       </Placemark>`).join("\n      ")}
     </Document>
   </Document>
-</kml>`);
+</kml>`));

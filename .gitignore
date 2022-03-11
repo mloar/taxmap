@@ -6,4 +6,4 @@
 !.yarn/sdks
 !.yarn/versions
 data/*
-rates.kml
+rates*.kml
