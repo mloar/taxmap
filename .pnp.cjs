@@ -33,7 +33,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         [null, {\
           "packageLocation": "./",\
           "packageDependencies": [\
-            ["gdal", "npm:0.11.0"]\
+            ["gdal", "npm:0.11.0"],\
+            ["xlsx", "npm:0.18.3"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -101,6 +102,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/abbrev-npm-1.1.1-3659247eab-a4a97ec07d.zip/node_modules/abbrev/",\
           "packageDependencies": [\
             ["abbrev", "npm:1.1.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["adler-32", [\
+        ["npm:1.3.0", {\
+          "packageLocation": "./.yarn/cache/adler-32-npm-1.3.0-5327bf60b0-91c3155198.zip/node_modules/adler-32/",\
+          "packageDependencies": [\
+            ["adler-32", "npm:1.3.0"],\
+            ["printj", "npm:1.2.3"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -223,6 +234,18 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["cfb", [\
+        ["npm:1.2.1", {\
+          "packageLocation": "./.yarn/cache/cfb-npm-1.2.1-5312a38f7f-6d21a58c07.zip/node_modules/cfb/",\
+          "packageDependencies": [\
+            ["cfb", "npm:1.2.1"],\
+            ["adler-32", "npm:1.3.0"],\
+            ["crc-32", "npm:1.2.1"],\
+            ["printj", "npm:1.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["chownr", [\
         ["npm:2.0.0", {\
           "packageLocation": "./.yarn/cache/chownr-npm-2.0.0-638f1c9c61-c57cf9dd07.zip/node_modules/chownr/",\
@@ -237,6 +260,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/clean-stack-npm-2.2.0-a8ce435a5c-2ac8cd2b2f.zip/node_modules/clean-stack/",\
           "packageDependencies": [\
             ["clean-stack", "npm:2.2.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["codepage", [\
+        ["npm:1.15.0", {\
+          "packageLocation": "./.yarn/cache/codepage-npm-1.15.0-bde3a4eb54-86bdfd8f8f.zip/node_modules/codepage/",\
+          "packageDependencies": [\
+            ["codepage", "npm:1.15.0"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -264,6 +296,17 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/console-control-strings-npm-1.1.0-e3160e5275-8755d76787.zip/node_modules/console-control-strings/",\
           "packageDependencies": [\
             ["console-control-strings", "npm:1.1.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["crc-32", [\
+        ["npm:1.2.1", {\
+          "packageLocation": "./.yarn/cache/crc-32-npm-1.2.1-ac77b90365-b8942a4047.zip/node_modules/crc-32/",\
+          "packageDependencies": [\
+            ["crc-32", "npm:1.2.1"],\
+            ["exit-on-epipe", "npm:1.0.1"],\
+            ["printj", "npm:1.3.1"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -351,6 +394,24 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/err-code-npm-2.0.3-082e0ff9a7-8b7b1be20d.zip/node_modules/err-code/",\
           "packageDependencies": [\
             ["err-code", "npm:2.0.3"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["exit-on-epipe", [\
+        ["npm:1.0.1", {\
+          "packageLocation": "./.yarn/cache/exit-on-epipe-npm-1.0.1-1aade96e24-e8ab494041.zip/node_modules/exit-on-epipe/",\
+          "packageDependencies": [\
+            ["exit-on-epipe", "npm:1.0.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["frac", [\
+        ["npm:1.1.2", {\
+          "packageLocation": "./.yarn/cache/frac-npm-1.1.2-7e88efac4e-fbfbb28003.zip/node_modules/frac/",\
+          "packageDependencies": [\
+            ["frac", "npm:1.1.2"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -880,6 +941,22 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["printj", [\
+        ["npm:1.2.3", {\
+          "packageLocation": "./.yarn/cache/printj-npm-1.2.3-1beb2848dd-ba0bc4c087.zip/node_modules/printj/",\
+          "packageDependencies": [\
+            ["printj", "npm:1.2.3"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
+        ["npm:1.3.1", {\
+          "packageLocation": "./.yarn/cache/printj-npm-1.3.1-5df08ba24a-3bb8976e02.zip/node_modules/printj/",\
+          "packageDependencies": [\
+            ["printj", "npm:1.3.1"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["promise-inflight", [\
         ["npm:1.0.1", {\
           "packageLocation": "./.yarn/cache/promise-inflight-npm-1.0.1-5bb925afac-2274948309.zip/node_modules/promise-inflight/",\
@@ -1029,6 +1106,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["ssf", [\
+        ["npm:0.11.2", {\
+          "packageLocation": "./.yarn/cache/ssf-npm-0.11.2-e6437eb624-6ecef6ae0a.zip/node_modules/ssf/",\
+          "packageDependencies": [\
+            ["ssf", "npm:0.11.2"],\
+            ["frac", "npm:1.1.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["ssri", [\
         ["npm:8.0.1", {\
           "packageLocation": "./.yarn/cache/ssri-npm-8.0.1-a369e72ce2-bc447f5af8.zip/node_modules/ssri/",\
@@ -1091,7 +1178,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./",\
           "packageDependencies": [\
             ["taxmap", "workspace:."],\
-            ["gdal", "npm:0.11.0"]\
+            ["gdal", "npm:0.11.0"],\
+            ["xlsx", "npm:0.18.3"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -1174,11 +1262,45 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["wmf", [\
+        ["npm:1.0.2", {\
+          "packageLocation": "./.yarn/cache/wmf-npm-1.0.2-15d4e3e93c-d336acb2c7.zip/node_modules/wmf/",\
+          "packageDependencies": [\
+            ["wmf", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["word", [\
+        ["npm:0.3.0", {\
+          "packageLocation": "./.yarn/cache/word-npm-0.3.0-da20365d4a-f84e706188.zip/node_modules/word/",\
+          "packageDependencies": [\
+            ["word", "npm:0.3.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["wrappy", [\
         ["npm:1.0.2", {\
           "packageLocation": "./.yarn/cache/wrappy-npm-1.0.2-916de4d4b3-159da4805f.zip/node_modules/wrappy/",\
           "packageDependencies": [\
             ["wrappy", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["xlsx", [\
+        ["npm:0.18.3", {\
+          "packageLocation": "./.yarn/cache/xlsx-npm-0.18.3-5d4d5febba-4e407a3ca9.zip/node_modules/xlsx/",\
+          "packageDependencies": [\
+            ["xlsx", "npm:0.18.3"],\
+            ["adler-32", "npm:1.3.0"],\
+            ["cfb", "npm:1.2.1"],\
+            ["codepage", "npm:1.15.0"],\
+            ["crc-32", "npm:1.2.1"],\
+            ["ssf", "npm:0.11.2"],\
+            ["wmf", "npm:1.0.2"],\
+            ["word", "npm:0.3.0"]\
           ],\
           "linkType": "HARD"\
         }]\

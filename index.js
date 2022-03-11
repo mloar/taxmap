@@ -1,31 +1,43 @@
 const fs = require("fs");
 const process = require("process");
 const gdal = require("gdal");
-const args = process.argv;
-const rates = JSON.parse(fs.readFileSync("rates.json"));
+const xlsx = require("xlsx");
 
+const wb = xlsx.read(fs.readFileSync("data/rates.xlsx"));
+const rates = new Map(
+  xlsx.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]).map(r => [r.Taxcode, Number(r.TaxcodeRate)])
+);
+
+const args = process.argv;
 const features = Object.values(args.slice(2).map(r => JSON.parse(fs.readFileSync(r)).features).flat().reduce((acc, cur) => {
   if (cur.properties.taxcode) {
     if (!(cur.properties.taxcode in acc)) {
       acc[cur.properties.taxcode] = {
-        type: "Feature",
-        geometry: {
-          type: "GeometryCollection",
-          geometries: [cur.geometry]
-        },
-        properties: {
-          taxcode: cur.properties.taxcode,
-          taxrate: rates[cur.properties.taxcode]
-        },
+        taxcode: cur.properties.taxcode,
+        taxrate: rates.get(cur.properties.taxcode),
         geo: new gdal.GeometryCollection()
       };
-    } else {
-      acc[cur.properties.taxcode].geometry.geometries.push(cur.geometry);
     }
     acc[cur.properties.taxcode].geo.children.add(gdal.Geometry.fromGeoJson(cur.geometry));
   }
   return acc;
 }, {}));
+
+features.forEach(f => f.geo = f.geo.convexHull());
+features.sort((a, b) => b.geo.getArea() - a.geo.getArea());
+features.forEach((f, i) => features.slice(i + 1).forEach(g => { f.geo = f.geo.difference(g.geo) }));
+
+const uniqueRates = Array.from(new Set(features.map(f => f.taxrate)));
+const maxRate = Math.max(...uniqueRates);
+const minRate = Math.min(...uniqueRates);
+const color1 = {red: 0, green: 0, blue: 255};
+const color2 = {red: 255, green: 0, blue: 0};
+const resultRed = percent => color1.red + percent * (color2.red - color1.red);
+const resultGreen = percent => color1.green + percent * (color2.green - color1.green);
+const resultBlue = percent => color1.blue + percent * (color2.blue - color1.blue);
+const hexNum = num => num < 16 ? "0" + Math.round(num).toString(16) : Math.round(num).toString(16);
+const spread = rate => (rate - minRate) / (maxRate - minRate);
+const computeColor = rate => `ff${hexNum(resultBlue(spread(rate)))}${hexNum(resultGreen(spread(rate)))}${hexNum(resultRed(spread(rate)))}`;
 
 fs.writeFileSync("rates.kml", `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
@@ -34,44 +46,25 @@ fs.writeFileSync("rates.kml", `<?xml version="1.0" encoding="UTF-8"?>
       <SimpleField name="taxcode" type="string"/>
       <SimpleField name="taxrate" type="float"/>
     </Schema>
-    <Style id="red">
+    ${uniqueRates.map(r => `<Style id="rate-${r}">
       <PolyStyle>
-        <color>ff0000ff</color>
+        <color>${computeColor(r)}</color>
         <outline>1</outline>
       </PolyStyle>
-    </Style>
-    <Style id="blue">
-      <PolyStyle>
-        <color>ffff0000</color>
-        <outline>1</outline>
-      </PolyStyle>
-    </Style>
+    </Style>`)}
     <Document id="rates">
-      <name>rates</name>
+      <name>Property Tax Rates 2020</name>
       ${features.map((f, i) => `<Placemark id="rates.${i}">
-        <styleUrl>#${f.properties.taxrate >= 10 ? "red" : "blue"}</styleUrl>
+        <name>${f.taxcode}</name>
+        <styleUrl>#rate-${f.taxrate}</styleUrl>
         <ExtendedData>
           <SchemaData schemaUrl="#rates.schema">
-            <SimpleData name="taxcode">${f.properties.taxcode}</SimpleData>
-            <SimpleData name="taxrate">${f.properties.taxrate}</SimpleData>
+            <SimpleData name="taxcode">${f.taxcode}</SimpleData>
+            <SimpleData name="taxrate">${f.taxrate}</SimpleData>
           </SchemaData>
         </ExtendedData>
-        ${f.geo.convexHull().toKML()}
+        ${f.geo.toKML()}
       </Placemark>`).join("\n      ")}
     </Document>
   </Document>
 </kml>`);
-
-/*let i = 0, f = 0;
-while (f < features.length) {
-  let size = 0;
-  const myfeatures = [];
-  while (f < features.length && size < 5000) {
-    myfeatures.push(features[f]);
-    size += features[f++].geometry.geometries.length;
-  }
-  fs.writeFileSync(`Batch-${i++}.geojson`, JSON.stringify({
-    type: "FeatureCollection",
-    features: myfeatures
-  }));
-}*/
