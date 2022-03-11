@@ -37,7 +37,7 @@ const resultGreen = percent => color1.green + percent * (color2.green - color1.g
 const resultBlue = percent => color1.blue + percent * (color2.blue - color1.blue);
 const hexNum = num => num < 16 ? "0" + Math.round(num).toString(16) : Math.round(num).toString(16);
 const spread = rate => (rate - minRate) / (maxRate - minRate);
-const computeColor = rate => `ff${hexNum(resultBlue(spread(rate)))}${hexNum(resultGreen(spread(rate)))}${hexNum(resultRed(spread(rate)))}`;
+const computeColor = rate => `88${hexNum(resultBlue(spread(rate)))}${hexNum(resultGreen(spread(rate)))}${hexNum(resultRed(spread(rate)))}`;
 
 fs.writeFileSync("rates.kml", `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
