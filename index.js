@@ -51,7 +51,7 @@ fs.writeFileSync("rates.kml", `<?xml version="1.0" encoding="UTF-8"?>
         <color>${computeColor(r)}</color>
         <outline>1</outline>
       </PolyStyle>
-    </Style>`)}
+    </Style>`).join("\r\n    ")}
     <Document id="rates">
       <name>Property Tax Rates 2020</name>
       ${features.map((f, i) => `<Placemark id="rates.${i}">
