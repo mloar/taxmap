@@ -42,7 +42,7 @@ function computeColor(rate) {
 
   const idx1 = value <= 0 ? 0 : value >= 1 ? colors.length - 1 : Math.floor(value * (colors.length - 1));
   const idx2 = value <= 0 ? 0 : value >= 1 ? colors.length - 1 : idx1 + 1;
-  const fract = value - idx1;
+  const fract = (value * (colors.length - 1)) - idx1;
 
   const hexNum = num => num < 16 ? "0" + Math.round(num).toString(16) : Math.round(num).toString(16);
   return `88${hexNum((colors[idx2].blue - colors[idx1].blue)*fract + + colors[idx1].blue)}${hexNum((colors[idx2].green - colors[idx1].green)*fract + colors[idx1].green)}${hexNum((colors[idx2].red - colors[idx1].red) * fract + colors[idx1].red)}`;
